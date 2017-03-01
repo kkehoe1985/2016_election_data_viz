@@ -575,7 +575,8 @@ function debounce(func, wait, immediate) {
       // });
 
       $.ajax({
-        url: "http://localhost:5000/updatePredictions", 
+        // url: "http://localhost:5000/updatePredictions",
+        url: "https://gentle-garden-66729.herokuapp.com/createModel",
         type: "GET",
         contentType: "application/json",
         data: sliderValues,
@@ -611,7 +612,8 @@ function debounce(func, wait, immediate) {
 
 $(document).ready(function(){
   $.ajax({
-    url: "http://localhost:5000/createModel",
+    // url: "http://localhost:5000/createModel",
+    url: "https://gentle-garden-66729.herokuapp.com/createModel",
     context: document.body,
     success: function() {
       $("#update").prop("disabled", false);
