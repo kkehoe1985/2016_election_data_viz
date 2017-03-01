@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>d3-mapbox-transition</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script> 
+  <link href="https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css" rel="stylesheet" />
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+</head>
+
+<body>
+  <div class="outer-wrap">
+    <div id="container">
+      <div class="button">
+        <button id="reset">Reset</button>
+      </div>
+      <div id="d3Map"></div>
+      <div id="mbMap"></div>
+    </div>
+
+    
+
+      <div class="slider-set-wrapper">
+        <div class="slider-set-container">
+          <h2>Education parameters:</h2>
+
+          <p class="slider-label">
+            <label for="percent_bachelors_label">Apply this multiplier to the % of county population who have a bachelor's degree or higher:</label>
+            <input type="text" id="percent_bachelors_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="percent_bachelors_slider" style="height:10px;"></div>
+
+          <p class="slider-label">
+            <label for="percent_hs_only_label">Apply this multiplier to the % of county population who have a high school diploma only:</label>
+            <input type="text" id="percent_hs_only_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="percent_hs_only_slider" style="height:10px;"></div>
+
+          <p class="slider-label">
+            <label for="percent_some_college_label">Apply this multiplier to the % of county population who have completed some college:</label>
+            <input type="text" id="percent_some_college_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="percent_some_college_slider" style="height:10px;"></div>
+        </div>
+
+        <div class="slider-set-container">
+          <h2>Race & gender parameters:</h2>
+          <p class="slider-label">
+            <label for="white_female_label">Apply this multiplier to the % of county population who are white females:</label>
+            <input type="text" id="white_female_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="white_female_slider" style="height:10px;"></div>
+
+          <p class="slider-label">
+            <label for="white_male_label">Apply this multiplier to the % of county population who are white males:</label>
+            <input type="text" id="white_male_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="white_male_slider" style="height:10px;"></div>
+
+          <p class="slider-label">
+            <label for="asian_female_label">Apply this multiplier to the % of county population who are asian females:</label>
+            <input type="text" id="asian_female_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="asian_female_slider" style="height:10px;"></div>
+        </div>
+      </div>
+
+      <div class="slider-set-wrapper">
+        <div class="slider-set-container">
+          <h2>Population density parameters:</h2>
+          <p class="slider-label">
+            <label for="density_pop_label">Apply this multiplier to the population density per square mile:</label>
+            <input type="text" id="density_pop_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="density_pop_slider" style="height:10px;"></div>
+
+          <p class="slider-label">
+            <label for="density_housing_label">Apply this multiplier to the density of housing units per square mile:</label>
+            <input type="text" id="density_housing_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="density_housing_slider" style="height:10px;"></div>
+        </div>
+
+        <div class="slider-set-container">
+          <h2>Religious parameters:</h2>
+          <p class="slider-label">
+            <label for="christian_generic_label">Apply this multiplier to the % of county population who are Christian (generic):</label>
+            <input type="text" id="christian_generic_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="christian_generic_slider" style="height:10px;"></div>
+
+          <p class="slider-label">
+            <label for="jewish_label">Apply this multiplier to the % of county population who are Jewish:</label>
+            <input type="text" id="jewish_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="jewish_slider" style="height:10px;"></div>
+        </div>
+      </div>
+
+      <button id="update" type="button" disabled="true"> Submit </button>
+      <p id="loadingMessage">
+        Please wait until model completes loading to submit adjustments.
+      </p>
+
+      <div class="footer-wrap">
+        <p>Source: Bureau of Labor Statistics, 2013</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXTERNAL JS FILES -->
+  <script src="https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+  <script src="http://d3js.org/topojson.v1.min.js"></script>
+  <script src="js/index.js"></script>
+  
+  </body>
+</html>
