@@ -414,7 +414,7 @@ $reset.on('click', function(e) {
 // create & style state featureLayer
 function getBounds(geojson) {
   var style = {
-    fillOpacity: 0.4,
+    fillOpacity: 1,
     color: '#666',
     weight: 1.8,
     opacity: 1,
@@ -503,7 +503,7 @@ function debounce(func, wait, immediate) {
 
 //send request to flask to create model on page load
 $(document).ready(function(){
-  $.blockUI({ message: "Please wait until model completes loading before submitting adjustments." });
+  $.blockUI({ message: $('#block-message') });
 
   $.ajax({
     // url: "http://localhost:5000/create_model",
@@ -517,6 +517,9 @@ $(document).ready(function(){
           $("#sliders-submit").show();
         } 
       });
+    },
+    error: function() {
+      $('#block-message').html("There was an error loading the model. Please reload the page.")
     }
   });
 
