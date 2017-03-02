@@ -581,6 +581,7 @@ function debounce(func, wait, immediate) {
         contentType: "application/json",
         data: sliderValues,
         success: function(data) {
+          console.log(data);
           var originalCounties = countyBounds;
           var newCounties = JSON.parse(data);
 
