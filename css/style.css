@@ -178,7 +178,7 @@ button:active {
   font-family: "Arial";
 }
 
-#sliders-submit {
+#sliders-submit, #block-message {
   display: none;
 }
 
