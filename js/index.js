@@ -366,6 +366,7 @@ $(function() {
 
 // transition from d3 view to mapbox view on click
 function clicked(d) {
+  console.log(d);
   $d3Map.fadeOut(600);
   $mbMap.fadeIn(1000);
   var centroid = path.centroid(d);
@@ -413,6 +414,7 @@ $reset.on('click', function(e) {
 // get bounds of clicked county geography
 // create & style state featureLayer
 function getBounds(geojson) {
+  console.log(geojson);
   var style = {
     fillOpacity: 0.4,
     color: '#666',
@@ -455,6 +457,7 @@ function getColor(d) {
 }
 
 function style(feature) {
+  console.log(feature);
   return {
     fillColor: getColor(feature.properties.D),
     weight: 0.7,
@@ -465,6 +468,7 @@ function style(feature) {
 }
 
 function highlightFeature(e) {
+  console.log(e);
   var layer = e.target;
 
   layer.setStyle({
@@ -503,11 +507,11 @@ function debounce(func, wait, immediate) {
 
 //send request to flask to create model on page load
 $(document).ready(function(){
-  $.blockUI({ message: "Please wait until model completes loading before submitting adjustments." }); 
+  $.blockUI({ message: "Please wait until model completes loading before submitting adjustments." });
 
   $.ajax({
-    // url: "http://localhost:5000/create_model",
-    url: "https://gentle-garden-66729.herokuapp.com/create_model",
+    url: "http://localhost:5000/create_model",
+    // url: "https://gentle-garden-66729.herokuapp.com/create_model",
     context: document.body,
     success: function() {
       $("#update").prop("disabled", false);
@@ -535,8 +539,8 @@ $(document).ready(function(){
     };
 
     $.ajax({
-      // url: "http://localhost:5000/update_predictions",
-      url: "https://gentle-garden-66729.herokuapp.com/update_predictions",
+      url: "http://localhost:5000/update_predictions",
+      // url: "https://gentle-garden-66729.herokuapp.com/update_predictions",
       type: "GET",
       contentType: "application/json",
       data: sliderValues,
