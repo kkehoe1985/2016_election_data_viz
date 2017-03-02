@@ -101,7 +101,7 @@ function renderMap(json) {
     };
 
     $(window).resize(debounce(onResize, 200, false));
-    var usLayer = L.geoJson(countyBounds, { style: style }).addTo(mbMap);
+    // var usLayer = L.geoJson(countyBounds, { style: style }).addTo(mbMap);
   });
 }
 
@@ -366,7 +366,6 @@ $(function() {
 
 // transition from d3 view to mapbox view on click
 function clicked(d) {
-  console.log(d);
   $d3Map.fadeOut(600);
   $mbMap.fadeIn(1000);
   var centroid = path.centroid(d);
@@ -414,7 +413,6 @@ $reset.on('click', function(e) {
 // get bounds of clicked county geography
 // create & style state featureLayer
 function getBounds(geojson) {
-  console.log(geojson);
   var style = {
     fillOpacity: 0.4,
     color: '#666',
@@ -457,7 +455,6 @@ function getColor(d) {
 }
 
 function style(feature) {
-  console.log(feature);
   return {
     fillColor: getColor(feature.properties.D),
     weight: 0.7,
@@ -468,7 +465,6 @@ function style(feature) {
 }
 
 function highlightFeature(e) {
-  console.log(e);
   var layer = e.target;
 
   layer.setStyle({
