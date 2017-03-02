@@ -576,12 +576,11 @@ function debounce(func, wait, immediate) {
 
       $.ajax({
         // url: "http://localhost:5000/updatePredictions",
-        url: "https://gentle-garden-66729.herokuapp.com/createModel",
+        url: "https://gentle-garden-66729.herokuapp.com/updatePredictions",
         type: "GET",
         contentType: "application/json",
         data: sliderValues,
         success: function(data) {
-          console.log(data);
           var originalCounties = countyBounds;
           var newCounties = JSON.parse(data);
 
