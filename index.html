@@ -2,7 +2,7 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>d3-mapbox-transition</title>
+  <title>Hypothetical Model of 2016 Presidential Election</title>
   
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
@@ -10,9 +10,11 @@
   <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script> 
   <link href="https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script src="https://malsup.github.io/jquery.blockUI.js"></script>
 </head>
 
 <body>
+  <h1 id="title">Hypothetical Model of 2016 Presidential Election</h1>
   <div class="outer-wrap">
     <div id="container">
       <div class="button">
@@ -22,8 +24,7 @@
       <div id="mbMap"></div>
     </div>
 
-    
-
+    <div id="sliders-submit">
       <div class="slider-set-wrapper">
         <div class="slider-set-container">
           <h2>Education parameters:</h2>
@@ -51,7 +52,7 @@
           <h2>Race & gender parameters:</h2>
           <p class="slider-label">
             <label for="white_female_label">Apply this multiplier to the % of county population who are white females:</label>
-            <input type="text" id="white_female_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <input type="text" disabled="true" id="white_female_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
           </p>
           <div id="white_female_slider" style="height:10px;"></div>
 
@@ -101,14 +102,13 @@
         </div>
       </div>
 
-      <button id="update" type="button" disabled="true"> Submit </button>
-      <p id="loadingMessage">
-        Please wait until model completes loading to submit adjustments.
-      </p>
+      <br /><br />
 
-      <div class="footer-wrap">
-        <p>Source: Bureau of Labor Statistics, 2013</p>
-      </div>
+      <button id="update" type="button" disabled="true"> Submit </button>
+    </div>
+
+    <div class="footer-wrap">
+      <p>Source: Bureau of Labor Statistics, 2013</p>
     </div>
   </div>
 
@@ -118,5 +118,5 @@
   <script src="https://d3js.org/topojson.v1.min.js"></script>
   <script src="js/index.js"></script>
   
-  </body>
+</body>
 </html>

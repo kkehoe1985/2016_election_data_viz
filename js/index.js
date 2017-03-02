@@ -6,7 +6,6 @@ var $reset = $('button[id=reset]').hide();
 var $d3Map = $('#d3Map');
 var $bottom = $('#bottom-container');
 
-
 // initialize mapbox map (outside logic to avoid duplicate initializations).
 L.mapbox.accessToken = 'pk.eyJ1Ijoic3ByaW5nZmllbGQiLCJhIjoiMmZkYmQ2MDIwMzc0NzU2NGJlNjY3YWFhZTdkOTIzNDMifQ.p8t3Dhdb5i6yAef33jU3LQ';
 var mbMap = L.mapbox.map('mbMap', 'mapbox.streets', {
@@ -51,8 +50,10 @@ var multiplier;
 
 function renderMap(json) {
   d3.json (json, function (error, us) {
-    if (error) { return console.error(error); 
-      data = json}
+    if (error) {
+      return console.error(error); 
+      data = json
+    }
 
     originalUs = us;
     newUs = us;
@@ -100,16 +101,13 @@ function renderMap(json) {
     };
 
     $(window).resize(debounce(onResize, 200, false));
-
     var usLayer = L.geoJson(countyBounds, { style: style }).addTo(mbMap);
-
   });
 }
 
 renderMap('https://raw.githubusercontent.com/kkehoe1985/ga_data_science_final_project/master/combined_data_with_county_shapes.json');
 
 var denested = $.getJSON('https://raw.githubusercontent.com/kkehoe1985/ga_data_science_final_project/master/de-nested_json_reduced.json')
-
 
 
 //slider functions
@@ -143,240 +141,231 @@ var new_percent_some_college_UiValue;
 var old_density_pop_UiValue = 0;
 var new_density_pop_UiValue;
 
+$(function() {
+  $("#white_male_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_white_male_UiValue = ui.value;
 
-$( function() {
-    $( "#white_male_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_white_male_UiValue = ui.value;
+      $("#white_male_label").val((new_white_male_UiValue + 100) / 100);
 
-        $( "#white_male_label" ).val( (new_white_male_UiValue + 100) / 100 );
+      newUs.objects.counties.geometries.forEach(function(object) {
+          object.properties.WHITE_MALE_rate = (object.properties.WHITE_MALE_rate / ((old_white_male_UiValue + 100) / 100)) * ((new_white_male_UiValue + 100) / 100)
+      });
 
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties.WHITE_MALE_rate = (object.properties.WHITE_MALE_rate / ((old_white_male_UiValue + 100) / 100) ) * ((new_white_male_UiValue + 100) / 100)
-        });
-        old_white_male_UiValue = ui.value;
-      }
-    });
-    $( "#white_male_label" ).val( $( "#white_male_slider" ).slider( "value" ) );
-  } );
+      old_white_male_UiValue = ui.value;
+    }
+  });
 
-$( function() {
-    $( "#jewish_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_jewish_UiValue = ui.value;
+  $("#white_male_label").val($("#white_male_slider").slider("value"));
+});
 
-        $( "#jewish_label" ).val( (new_jewish_UiValue + 100) / 100 );
+$(function() {
+  $("#jewish_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_jewish_UiValue = ui.value;
 
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties.Jewish = (object.properties.Jewish / ((old_jewish_UiValue + 100) / 100) ) * ((new_jewish_UiValue + 100) / 100)
-        });
-        old_jewish_UiValue = ui.value;
-        
-      }
-    });
-    $( "#jewish_label" ).val( $( "#jewish_slider" ).slider( "value" ) );
-  } );
+      $("#jewish_label").val((new_jewish_UiValue + 100) / 100);
 
+      newUs.objects.counties.geometries.forEach(function(object) {
+          object.properties.Jewish = (object.properties.Jewish / ((old_jewish_UiValue + 100) / 100)) * ((new_jewish_UiValue + 100) / 100)
+      });
 
-$( function() {
-    $( "#white_female_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_white_female_UiValue = ui.value;
+      old_jewish_UiValue = ui.value;
+    }
+  });
 
-        $( "#white_female_label" ).val( (new_white_female_UiValue + 100) / 100 );
-
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties.WHITE_FEMALE_rate = (object.properties.WHITE_FEMALE_rate / ((old_white_female_UiValue + 100) / 100) ) * ((new_white_female_UiValue + 100) / 100)
-        });
-        old_white_female_UiValue = ui.value;
-        
-      }
-    });
-    $( "#white_female_label" ).val( $( "#white_female_slider" ).slider( "value" ) );
-  } );
+  $("#jewish_label").val($("#jewish_slider").slider( "value") );
+});
 
 
-$( function() {
-    $( "#percent_bachelors_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_percent_bachelors_UiValue = ui.value;
+$(function() {
+  $("#white_female_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_white_female_UiValue = ui.value;
+      $("#white_female_label").val((new_white_female_UiValue + 100) / 100);
 
-        $( "#percent_bachelors_label" ).val( (new_percent_bachelors_UiValue + 100) / 100 );
+      newUs.objects.counties.geometries.forEach(function(object) {
+        object.properties.WHITE_FEMALE_rate = (object.properties.WHITE_FEMALE_rate / ((old_white_female_UiValue + 100) / 100)) * ((new_white_female_UiValue + 100) / 100)
+      });
 
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties["Percent of adults with a bachelor's degree or higher, 2010-2014"] = (object.properties["Percent of adults with a bachelor's degree or higher, 2010-2014"] / ((old_percent_bachelors_UiValue + 100) / 100) ) * ((new_percent_bachelors_UiValue + 100) / 100)
-        });
-        old_percent_bachelors_UiValue = ui.value;
-        
-      }
-    });
-    $( "#percent_bachelors_label" ).val( $( "#percent_bachelors_slider" ).slider( "value" ) );
-  } );
+      old_white_female_UiValue = ui.value;
+    }
+  });
 
+  $("#white_female_label").val($("#white_female_slider").slider("value"));
+});
 
-$( function() {
-    $( "#percent_hs_only_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_percent_hs_only_UiValue = ui.value;
+$(function() {
+  $("#percent_bachelors_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_percent_bachelors_UiValue = ui.value;
+      $("#percent_bachelors_label").val((new_percent_bachelors_UiValue + 100) / 100);
 
-        $( "#percent_hs_only_label" ).val( (new_percent_hs_only_UiValue + 100) / 100 );
+      newUs.objects.counties.geometries.forEach(function(object) {
+        object.properties["Percent of adults with a bachelor's degree or higher, 2010-2014"] = (object.properties["Percent of adults with a bachelor's degree or higher, 2010-2014"] / ((old_percent_bachelors_UiValue + 100) / 100)) * ((new_percent_bachelors_UiValue + 100) / 100)
+      });
 
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties["Percent of adults with a high school diploma only, 2010-2014"] = (object.properties["Percent of adults with a high school diploma only, 2010-2014"] / ((old_percent_hs_only_UiValue + 100) / 100) ) * ((new_percent_hs_only_UiValue + 100) / 100)
-        });
-        old_percent_hs_only_UiValue = ui.value;
-        
-      }
-    });
-    $( "#percent_hs_only_label" ).val( $( "#percent_hs_only_slider" ).slider( "value" ) );
-  } );
+      old_percent_bachelors_UiValue = ui.value;
+    }
+  });
 
+  $("#percent_bachelors_label").val($("#percent_bachelors_slider").slider("value"));
+});
 
-$( function() {
-    $( "#christian_generic_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_christian_generic_UiValue = ui.value;
+$(function() {
+  $("#percent_hs_only_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_percent_hs_only_UiValue = ui.value;
+      $("#percent_hs_only_label").val((new_percent_hs_only_UiValue + 100) / 100);
 
-        $( "#christian_generic_label" ).val( (new_christian_generic_UiValue + 100) / 100 );
+      newUs.objects.counties.geometries.forEach(function(object) {
+        object.properties["Percent of adults with a high school diploma only, 2010-2014"] = (object.properties["Percent of adults with a high school diploma only, 2010-2014"] / ((old_percent_hs_only_UiValue + 100) / 100)) * ((new_percent_hs_only_UiValue + 100) / 100)
+      });
 
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties["Christian Generic"] = (object.properties["Christian Generic"] / ((old_christian_generic_UiValue + 100) / 100) ) * ((new_christian_generic_UiValue + 100) / 100)
-        });
-        old_christian_generic_UiValue = ui.value;
-        
-      }
-    });
-    $( "#christian_generic_label" ).val( $( "#christian_generic_slider" ).slider( "value" ) );
-  } );
+      old_percent_hs_only_UiValue = ui.value;
+    }
+  });
 
+  $("#percent_hs_only_label").val($("#percent_hs_only_slider").slider("value"));
+});
 
-$( function() {
-    $( "#density_housing_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_density_housing_UiValue = ui.value;
+$(function() {
+  $("#christian_generic_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_christian_generic_UiValue = ui.value;
+      $("#christian_generic_label").val((new_christian_generic_UiValue + 100) / 100);
 
-        $( "#density_housing_label" ).val( (new_density_housing_UiValue + 100) / 100 );
+      newUs.objects.counties.geometries.forEach(function(object) {
+        object.properties["Christian Generic"] = (object.properties["Christian Generic"] / ((old_christian_generic_UiValue + 100) / 100)) * ((new_christian_generic_UiValue + 100) / 100)
+      });
 
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties["Density per square mile of land area - Housing units"] = (object.properties["Density per square mile of land area - Housing units"] / ((old_density_housing_UiValue + 100) / 100) ) * ((new_density_housing_UiValue + 100) / 100)
-        });
-        old_density_housing_UiValue = ui.value;
-        
-      }
-    });
-    $( "#density_housing_label" ).val( $( "#density_housing_slider" ).slider( "value" ) );
-  } );
+      old_christian_generic_UiValue = ui.value;
+    }
+  });
 
+  $("#christian_generic_label").val($("#christian_generic_slider").slider("value"));
+});
 
-$( function() {
-    $( "#asian_female_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_asian_female_UiValue = ui.value;
+$(function() {
+  $("#density_housing_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_density_housing_UiValue = ui.value;
+      $("#density_housing_label").val((new_density_housing_UiValue + 100) / 100);
 
-        $( "#asian_female_label" ).val( (new_asian_female_UiValue + 100) / 100 );
+      newUs.objects.counties.geometries.forEach(function(object) {
+        object.properties["Density per square mile of land area - Housing units"] = (object.properties["Density per square mile of land area - Housing units"] / ((old_density_housing_UiValue + 100) / 100)) * ((new_density_housing_UiValue + 100) / 100)
+      });
 
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties.ASIAN_FEMALE_rate = (object.properties.ASIAN_FEMALE_rate / ((old_asian_female_UiValue + 100) / 100) ) * ((new_asian_female_UiValue + 100) / 100)
-        });
-        old_asian_female_UiValue = ui.value;
-        
-      }
-    });
-    $( "#asian_female_label" ).val( $( "#asian_female_slider" ).slider( "value" ) );
-  } );
+      old_density_housing_UiValue = ui.value;
+    }
+  });
 
+  $("#density_housing_label").val($("#density_housing_slider").slider("value"));
+});
 
-$( function() {
-    $( "#percent_some_college_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_percent_some_college_UiValue = ui.value;
+$(function() {
+  $("#asian_female_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_asian_female_UiValue = ui.value;
+      $("#asian_female_label").val((new_asian_female_UiValue + 100) / 100);
 
-        $( "#percent_some_college_label" ).val( (new_percent_some_college_UiValue + 100) / 100 );
+      newUs.objects.counties.geometries.forEach(function(object) {
+        object.properties.ASIAN_FEMALE_rate = (object.properties.ASIAN_FEMALE_rate / ((old_asian_female_UiValue + 100) / 100)) * ((new_asian_female_UiValue + 100) / 100)
+      });
 
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties["Percent of adults completing some college or associate's degree, 2010-2014"] = (object.properties["Percent of adults completing some college or associate's degree, 2010-2014"] / ((old_percent_some_college_UiValue + 100) / 100) ) * ((new_percent_some_college_UiValue + 100) / 100)
-        });
-        old_percent_some_college_UiValue = ui.value;
-        
-      }
-    });
-    $( "#percent_some_college_label" ).val( $( "#percent_some_college_slider" ).slider( "value" ) );
-  } );
+      old_asian_female_UiValue = ui.value;
+    }
+  });
 
+  $("#asian_female_label").val($("#asian_female_slider").slider("value"));
+});
 
-$( function() {
-    $( "#density_pop_slider" ).slider({
-      orientation: "horizontal",
-      range: "min",
-      min: -100,
-      max: 100,
-      value: 1,
-      slide: function( event, ui ) {
-        new_density_pop_UiValue = ui.value;
+$(function() {
+  $("#percent_some_college_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_percent_some_college_UiValue = ui.value;
+      $("#percent_some_college_label").val((new_percent_some_college_UiValue + 100) / 100);
 
-        $( "#density_pop_label" ).val( (new_density_pop_UiValue + 100) / 100 );
+      newUs.objects.counties.geometries.forEach(function(object) {
+        object.properties["Percent of adults completing some college or associate's degree, 2010-2014"] = (object.properties["Percent of adults completing some college or associate's degree, 2010-2014"] / ((old_percent_some_college_UiValue + 100) / 100)) * ((new_percent_some_college_UiValue + 100) / 100)
+      });
 
-        newUs.objects.counties.geometries.forEach(function(object) {
-            object.properties["Density per square mile of land area - Population"] = (object.properties["Density per square mile of land area - Population"] / ((old_density_pop_UiValue + 100) / 100) ) * ((new_density_pop_UiValue + 100) / 100)
-        });
-        old_density_pop_UiValue = ui.value;
-        
-      }
-    });
-    $( "#density_pop_label" ).val( $( "#density_pop_slider" ).slider( "value" ) );
-  } );
+      old_percent_some_college_UiValue = ui.value;  
+    }
+  });
 
+  $("#percent_some_college_label").val($("#percent_some_college_slider").slider("value"));
+});
 
+$(function() {
+  $("#density_pop_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_density_pop_UiValue = ui.value;
+      $("#density_pop_label").val((new_density_pop_UiValue + 100) / 100);
 
+      newUs.objects.counties.geometries.forEach(function(object) {
+        object.properties["Density per square mile of land area - Population"] = (object.properties["Density per square mile of land area - Population"] / ((old_density_pop_UiValue + 100) / 100)) * ((new_density_pop_UiValue + 100) / 100)
+      });
+
+      old_density_pop_UiValue = ui.value;
+    }
+  });
+
+  $("#density_pop_label").val($("#density_pop_slider").slider("value"));
+});
 
 // transition from d3 view to mapbox view on click
 function clicked(d) {
-  // d3.select(this).attr('class') is q0-8 - the new one
   $d3Map.fadeOut(600);
   $mbMap.fadeIn(1000);
   var centroid = path.centroid(d);
@@ -392,34 +381,33 @@ function clicked(d) {
   
   // hardcode AK
   if (d.properties.s === 'AK') {
-      mbMap.fitBounds([[54.113578, -165.835171], [70.568625, -142.547859]]);
-    } else {
-      mbMap.fitBounds(stateBounds.getBounds());
-    }
+    mbMap.fitBounds([[54.113578, -165.835171], [70.568625, -142.547859]]);
+  } else {
+    mbMap.fitBounds(stateBounds.getBounds());
+  }
 
   g.transition()
-      .duration(750)
-      .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')scale(' + zoom + ')translate(' + -x + ',' + -y + ')')
-      .style('stroke-width', 1.5 / zoom + 'px');
+    .duration(750)
+    .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')scale(' + zoom + ')translate(' + -x + ',' + -y + ')')
+    .style('stroke-width', 1.5 / zoom + 'px');
 }
 
-
 // event listener to transition back to D3 map.
-$reset.on('click', function (e) {
+$reset.on('click', function(e) {
   $mbMap.fadeOut(600);
   // $bottom.removeClass('detail');
   $d3Map.fadeIn(1000);
   $reset.hide();
 
 // remove styling from state geojson featureLayer
-  for(var i = 0, ii = overlayLayers.length; i < ii; ++i) {
+  for (var i = 0, ii = overlayLayers.length; i < ii; ++i) {
     mbMap.removeLayer(overlayLayers[i]);
   }
 
   g.transition()
-      .duration(750)
-      .attr('transform', 'translate(0,0)scale(1)')
-      .style('stroke-width', '1.5px');
+    .duration(750)
+    .attr('transform', 'translate(0,0)scale(1)')
+    .style('stroke-width', '1.5px');
 });
 
 // get bounds of clicked county geography
@@ -444,16 +432,15 @@ function getBounds(geojson) {
   return featureLayer;
 }
 
-
 // get all county bounds for a state, using properties.D
 function getState(state) {
   var stateBounds = [];
-  for(var i = 0, ii = countyBounds.length; i < ii; ++i) {
+  for (var i = 0, ii = countyBounds.length; i < ii; ++i) {
     if (countyBounds[i].properties.s === state) {
       stateBounds.push(countyBounds[i]);
     }
   }
-  return {type: 'FeatureCollection', features: stateBounds};
+  return { type: 'FeatureCollection', features: stateBounds };
 }
 
 // set color for mapbox quantile scale
@@ -466,21 +453,6 @@ function getColor(d) {
     return 'rgb(198,198,198)';
   }
 }
-
-//     if (d) {
-//     return d < 48 ? 'rgb(255, 0, 0)':
-//            d >= 48 ? 'rgb(255, 77, 77)' :
-//            d < 45? 'rgb(255, 153, 153)' :
-//            d < 50 ? 'rgb(255, 230, 230)' :
-//            d < 55? 'rgb(230, 240, 255)' :
-//            d < 60 ? 'rgb(153, 194, 255)' :
-//            d < 65 ? 'rgb(77, 148, 255)' :
-//                      'rgb(0, 102, 255)';
-//     } else {
-//       return 'rgb(198,198,198)';
-//     }
-// }
-
 
 function style(feature) {
   return {
@@ -529,134 +501,68 @@ function debounce(func, wait, immediate) {
   };
 };
 
-
-//Jquery button for GET request
-/* $(document).ready(function(){
-    $("#update").click(function(){
-       console.log(originalUs)
-      $.get("http://localhost:5000/json_test", function(data, status){
-            console.log(data)
-            console.log(status)
-        });
-    });
- });*/
-
-  $(document).ready(function(){
-    $("#update").click(function(){
-
-      var sliderValues = {
-        percent_hs_only: $('#percent_hs_only_label').val(),
-        percent_some_college: $( "#percent_some_college_label" ).val(),
-        percent_white_male: $( "#white_male_label" ).val(),
-        percent_jewish:  $( "#jewish_label" ).val(),
-        percent_white_female: $( "#white_female_label" ).val(),
-        percent_bachelors: $( "#percent_bachelors_label" ).val(),
-        percent_christian_generic: $( "#christian_generic_label" ).val(),
-        density_housing: $( "#density_housing_label" ).val(),
-        percent_asian_female: $( "#asian_female_label" ).val(),
-        density_pop: $( "#density_pop_label" ).val()
-      };
-      //debugger;
-      // var simplifiedArray = [];
-      // originalUs.objects.counties.geometries.forEach(function(object) {
-      //   simplifiedArray.push(JSON.stringify({
-      //     "Percent of adults with a high school diploma only, 2010-2014": object.properties["Percent of adults with a high school diploma only, 2010-2014"],
-      //     "Percent of adults completing some college or associate's degree, 2010-2014": object.properties["Percent of adults completing some college or associate's degree, 2010-2014"],
-      //     "Percent of adults with a bachelor's degree or higher, 2010-2014": object.properties["Percent of adults with a bachelor's degree or higher, 2010-2014"],
-      //     "Christian Generic": object.properties["Christian Generic"],
-      //     "Jewish": object.properties["Jewish"],
-      //     "Density per square mile of land area - Population": object.properties["Density per square mile of land area - Population"],
-      //     "Density per square mile of land area - Housing units": object.properties["Density per square mile of land area - Housing units"],
-      //     "WHITE_MALE_rate": object.properties["WHITE_MALE_rate"],
-      //     "WHITE_FEMALE_rate": object.properties["WHITE_FEMALE_rate"],
-      //     "ASIAN_FEMALE_rate": object.properties["ASIAN_FEMALE_rate"],
-      //     "id": object["id"]
-      //   }));
-      // });
-
-      $.ajax({
-        // url: "http://localhost:5000/updatePredictions",
-        url: "https://gentle-garden-66729.herokuapp.com/updatePredictions",
-        type: "GET",
-        contentType: "application/json",
-        data: sliderValues,
-        success: function(data) {
-          var originalCounties = countyBounds;
-          var newCounties = JSON.parse(data);
-
-          _.each(originalCounties, function(originalCountyData) {
-            var matchingNewCountyData = _.find(newCounties, function(newCountyData) {
-              return newCountyData["id"] == originalCountyData["id"]
-            });
-
-            if (matchingNewCountyData) {
-              originalCountyData.new_prediction = matchingNewCountyData.new_prediction;
-            }
-          });
-
-          _.each(originalCounties, function(originalCounty) {
-            var countyPath = $("#" + originalCounty.id);
-
-            if (countyPath) {
-              countyPath.removeAttr('class');
-              countyPath.attr('class', quantize(originalCounty.new_prediction));
-            }
-          });
-        }   
-      });
-    });
- });
-
-
 //send request to flask to create model on page load
-
 $(document).ready(function(){
+  $.blockUI({ message: "Please wait until model completes loading before submitting adjustments." }); 
+
   $.ajax({
-    // url: "http://localhost:5000/createModel",
-    url: "https://gentle-garden-66729.herokuapp.com/createModel",
+    // url: "http://localhost:5000/create_model",
+    url: "https://gentle-garden-66729.herokuapp.com/create_model",
     context: document.body,
     success: function() {
       $("#update").prop("disabled", false);
-      $("#loadingMessage").hide();
-      // debugger;
-      // alert("done");
-      // loading = false;
-    },
-    error: function() {
-      // loading = false;
+
+      $.unblockUI({ 
+        onUnblock: function(){
+          $("#sliders-submit").show();
+        } 
+      });
     }
+  });
+
+  $("#update").click(function(){
+    var sliderValues = {
+      percent_hs_only: $('#percent_hs_only_label').val(),
+      percent_some_college: $("#percent_some_college_label").val(),
+      percent_white_male: $("#white_male_label").val(),
+      percent_jewish: $("#jewish_label").val(),
+      percent_white_female: $("#white_female_label").val(),
+      percent_bachelors: $("#percent_bachelors_label").val(),
+      percent_christian_generic: $("#christian_generic_label").val(),
+      density_housing: $("#density_housing_label").val(),
+      percent_asian_female: $("#asian_female_label").val(),
+      density_pop: $("#density_pop_label").val()
+    };
+
+    $.ajax({
+      // url: "http://localhost:5000/update_predictions",
+      url: "https://gentle-garden-66729.herokuapp.com/update_predictions",
+      type: "GET",
+      contentType: "application/json",
+      data: sliderValues,
+      success: function(data) {
+        var originalCounties = countyBounds;
+        var newCounties = JSON.parse(data);
+
+        _.each(originalCounties, function(originalCountyData) {
+          var matchingNewCountyData = _.find(newCounties, function(newCountyData) {
+            return newCountyData["id"] == originalCountyData["id"]
+          });
+
+          if (matchingNewCountyData) {
+            originalCountyData.new_prediction = matchingNewCountyData.new_prediction;
+          }
+        });
+
+        _.each(originalCounties, function(originalCounty) {
+          var countyPath = $("#" + originalCounty.id);
+
+          if (countyPath) {
+            countyPath.removeAttr('class');
+            countyPath.attr('class', quantize(originalCounty.new_prediction));
+          }
+        });
+      }   
+    });
   });
 });
-
-//Additional Code
-
-//Kristen pseudo code
-/*
-function alterMapDisplay(newMedianHouseholdIncome) {
-  myPythonApp.get('/alterDisplay', newMedianHouseholdIncome, function(success, error) {
-    if (error) { // show some kind of error on the screen 
-    } else {
-      // change the display to use the new python dataframe stuff, do whatever needs to be done, render the map again
-    }
-  });
-}
-// End Kristen pseudo code
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

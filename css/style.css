@@ -1,6 +1,12 @@
 body, html {
+  height: 100%;
   width: 100%;
   margin: 0;
+  font-family:'Helvetica Neue', Helvetica, arial, sans-serif;
+}
+
+#title {
+  text-align: center;
 }
 
 .outer-wrap {
@@ -167,18 +173,15 @@ button:active {
   margin: 0 auto;
 }
 
-#loadingMessage {
+#loading-message {
   color: red;
   font-family: "Arial";
 }
 
-h2 {
-  font-family:'Helvetica Neue', Helvetica, arial, sans-serif;
+#sliders-submit {
+  display: none;
 }
 
-
-
-
-
-
-
+.blockMsg {
+  padding: 20px!important;
+}
