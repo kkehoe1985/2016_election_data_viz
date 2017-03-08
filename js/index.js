@@ -506,8 +506,8 @@ $(document).ready(function(){
   $.blockUI({ message: $('#block-message') });
 
   $.ajax({
-     url: "http://localhost:5000/create_model",
-    //url: "https://gentle-garden-66729.herokuapp.com/create_model",
+    // url: "http://localhost:5000/create_model",
+    url: "https://gentle-garden-66729.herokuapp.com/create_model",
     context: document.body,
     success: function() {
       $("#update").prop("disabled", false);
@@ -538,8 +538,8 @@ $(document).ready(function(){
     };
 
     $.ajax({
-       url: "http://localhost:5000/update_predictions",
-      //url: "https://gentle-garden-66729.herokuapp.com/update_predictions",
+      // url: "http://localhost:5000/update_predictions",
+      url: "https://gentle-garden-66729.herokuapp.com/update_predictions",
       type: "GET",
       contentType: "application/json",
       data: sliderValues,
