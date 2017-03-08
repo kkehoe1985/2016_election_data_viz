@@ -4,4 +4,5 @@ This repo contains the front end (HTML, CSS, and JS files) of the interactive da
 
 Link to back-end: https://github.com/kkehoe1985/2016_election_data_viz_back_end
 
-Link to Jupyter notebooks: https://github.com/kkehoe1985/2016_election_data_viz
+Link to Jupyter notebooks: https://github.com/kkehoe1985/ga_data_science_final_project
+
