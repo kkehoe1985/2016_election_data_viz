@@ -126,17 +126,17 @@ var new_percent_bachelors_UiValue;
 var old_percent_hs_only_UiValue = 0;
 var new_percent_hs_only_UiValue;
 
-var old_christian_generic_UiValue = 0;
-var new_christian_generic_UiValue;
-
 var old_density_housing_UiValue = 0;
 var new_density_housing_UiValue;
 
-var old_asian_female_UiValue = 0;
-var new_asian_female_UiValue;
+var old_black_female_UiValue = 0;
+var new_black_female_UiValue;
 
-var old_percent_some_college_UiValue = 0;
-var new_percent_some_college_UiValue;
+var old_black_male_UiValue = 0;
+var new_black_male_UiValue;
+
+var old_population_UiValue = 0;
+var new_population_UiValue;
 
 var old_density_pop_UiValue = 0;
 var new_density_pop_UiValue;
@@ -255,28 +255,6 @@ $(function() {
 });
 
 $(function() {
-  $("#christian_generic_slider").slider({
-    orientation: "horizontal",
-    range: "min",
-    min: -100,
-    max: 100,
-    value: 1,
-    slide: function(event, ui) {
-      new_christian_generic_UiValue = ui.value;
-      $("#christian_generic_label").val((new_christian_generic_UiValue + 100) / 100);
-
-      newUs.objects.counties.geometries.forEach(function(object) {
-        object.properties["Christian Generic"] = (object.properties["Christian Generic"] / ((old_christian_generic_UiValue + 100) / 100)) * ((new_christian_generic_UiValue + 100) / 100)
-      });
-
-      old_christian_generic_UiValue = ui.value;
-    }
-  });
-
-  $("#christian_generic_label").val($("#christian_generic_slider").slider("value"));
-});
-
-$(function() {
   $("#density_housing_slider").slider({
     orientation: "horizontal",
     range: "min",
@@ -299,47 +277,69 @@ $(function() {
 });
 
 $(function() {
-  $("#asian_female_slider").slider({
+  $("#black_female_slider").slider({
     orientation: "horizontal",
     range: "min",
     min: -100,
     max: 100,
     value: 1,
     slide: function(event, ui) {
-      new_asian_female_UiValue = ui.value;
-      $("#asian_female_label").val((new_asian_female_UiValue + 100) / 100);
+      new_black_female_UiValue = ui.value;
+      $("#black_female_label").val((new_black_female_UiValue + 100) / 100);
 
       newUs.objects.counties.geometries.forEach(function(object) {
-        object.properties.ASIAN_FEMALE_rate = (object.properties.ASIAN_FEMALE_rate / ((old_asian_female_UiValue + 100) / 100)) * ((new_asian_female_UiValue + 100) / 100)
+        object.properties.black_FEMALE_rate = (object.properties.black_FEMALE_rate / ((old_black_female_UiValue + 100) / 100)) * ((new_black_female_UiValue + 100) / 100)
       });
 
-      old_asian_female_UiValue = ui.value;
+      old_black_female_UiValue = ui.value;
     }
   });
 
-  $("#asian_female_label").val($("#asian_female_slider").slider("value"));
+  $("#black_female_label").val($("#black_female_slider").slider("value"));
 });
 
 $(function() {
-  $("#percent_some_college_slider").slider({
+  $("#black_male_slider").slider({
     orientation: "horizontal",
     range: "min",
     min: -100,
     max: 100,
     value: 1,
     slide: function(event, ui) {
-      new_percent_some_college_UiValue = ui.value;
-      $("#percent_some_college_label").val((new_percent_some_college_UiValue + 100) / 100);
+      new_black_male_UiValue = ui.value;
+      $("#black_male_label").val((new_black_male_UiValue + 100) / 100);
 
       newUs.objects.counties.geometries.forEach(function(object) {
-        object.properties["Percent of adults completing some college or associate's degree, 2010-2014"] = (object.properties["Percent of adults completing some college or associate's degree, 2010-2014"] / ((old_percent_some_college_UiValue + 100) / 100)) * ((new_percent_some_college_UiValue + 100) / 100)
+        object.properties.black_MALErate = (object.properties.black_MALE_rate / ((old_black_male_UiValue + 100) / 100)) * ((new_black_male_UiValue + 100) / 100)
       });
 
-      old_percent_some_college_UiValue = ui.value;  
+      old_black_male_UiValue = ui.value;
     }
   });
 
-  $("#percent_some_college_label").val($("#percent_some_college_slider").slider("value"));
+  $("#black_male_label").val($("#black_male_slider").slider("value"));
+});
+
+$(function() {
+  $("#population_slider").slider({
+    orientation: "horizontal",
+    range: "min",
+    min: -100,
+    max: 100,
+    value: 1,
+    slide: function(event, ui) {
+      new_population_UiValue = ui.value;
+      $("#population_label").val((new_population_UiValue + 100) / 100);
+
+      newUs.objects.counties.geometries.forEach(function(object) {
+        object.properties["Population"] = (object.properties["Population"] / ((old_population_UiValue + 100) / 100)) * ((new_population_UiValue + 100) / 100)
+      });
+
+      old_population_UiValue = ui.value;  
+    }
+  });
+
+  $("#population_label").val($("#population_slider").slider("value"));
 });
 
 $(function() {
@@ -506,8 +506,8 @@ $(document).ready(function(){
   $.blockUI({ message: $('#block-message') });
 
   $.ajax({
-    // url: "http://localhost:5000/create_model",
-    url: "https://gentle-garden-66729.herokuapp.com/create_model",
+     url: "http://localhost:5000/create_model",
+    //url: "https://gentle-garden-66729.herokuapp.com/create_model",
     context: document.body,
     success: function() {
       $("#update").prop("disabled", false);
@@ -526,20 +526,20 @@ $(document).ready(function(){
   $("#update").click(function(){
     var sliderValues = {
       percent_hs_only: $('#percent_hs_only_label').val(),
-      percent_some_college: $("#percent_some_college_label").val(),
+      population: $("#population_label").val(),
       percent_white_male: $("#white_male_label").val(),
       percent_jewish: $("#jewish_label").val(),
       percent_white_female: $("#white_female_label").val(),
       percent_bachelors: $("#percent_bachelors_label").val(),
-      percent_christian_generic: $("#christian_generic_label").val(),
       density_housing: $("#density_housing_label").val(),
-      percent_asian_female: $("#asian_female_label").val(),
+      percent_black_female: $("#black_female_label").val(),
+      percent_black_male: $("#black_male_label").val(),
       density_pop: $("#density_pop_label").val()
     };
 
     $.ajax({
-      // url: "http://localhost:5000/update_predictions",
-      url: "https://gentle-garden-66729.herokuapp.com/update_predictions",
+       url: "http://localhost:5000/update_predictions",
+      //url: "https://gentle-garden-66729.herokuapp.com/update_predictions",
       type: "GET",
       contentType: "application/json",
       data: sliderValues,

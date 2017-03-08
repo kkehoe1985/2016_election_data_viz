@@ -2,7 +2,7 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Hypothetical Model of 2016 Presidential Election</title>
+  <title>Random Forest Model of 2016 Presidential Election</title>
   
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <h1 id="title">Hypothetical Model of 2016 Presidential Election</h1>
+  <h1 id="title">Random Forest Model of 2016 Presidential Election</h1>
   <div id="block-message">Please wait until model completes loading before submitting adjustments.</div>
   <div class="outer-wrap">
     <div id="container">
@@ -25,29 +25,15 @@
       <div id="mbMap"></div>
     </div>
 
+    <p>
+	The map above allows you to construct hypothetical scenarios based on 10 tunable parameters that are applied equally to all US counties. For example, if you want to answer the question “how could the election have been different if the percentage of people with at least a bachelor’s degree had been 2% higher nationwide?” you can simply toggle that parameter up to 1.02 and click “Submit” to find out.<br><br>
+
+	The predictions are driven by a random forest classification model that has been tuned and trained on 71 distinct county-level attributes. The model has a predictive accuracy of 94.6% and an <a href="http://fastml.com/what-you-wanted-to-know-about-auc/">ROC AUC</a>  score of 96%. When you adjust the tunable parameters and hit “Submit,” the model takes in the new data and updates the predicted outcome.
+    </p>
+
+
     <div id="sliders-submit">
       <div class="slider-set-wrapper">
-        <div class="slider-set-container">
-          <h2>Education parameters:</h2>
-
-          <p class="slider-label">
-            <label for="percent_bachelors_label">Apply this multiplier to the % of county population who have a bachelor's degree or higher:</label>
-            <input type="text" id="percent_bachelors_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
-          </p>
-          <div id="percent_bachelors_slider" style="height:10px;"></div>
-
-          <p class="slider-label">
-            <label for="percent_hs_only_label">Apply this multiplier to the % of county population who have a high school diploma only:</label>
-            <input type="text" id="percent_hs_only_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
-          </p>
-          <div id="percent_hs_only_slider" style="height:10px;"></div>
-
-          <p class="slider-label">
-            <label for="percent_some_college_label">Apply this multiplier to the % of county population who have completed some college:</label>
-            <input type="text" id="percent_some_college_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
-          </p>
-          <div id="percent_some_college_slider" style="height:10px;"></div>
-        </div>
 
         <div class="slider-set-container">
           <h2>Race & gender parameters:</h2>
@@ -64,14 +50,19 @@
           <div id="white_male_slider" style="height:10px;"></div>
 
           <p class="slider-label">
-            <label for="asian_female_label">Apply this multiplier to the % of county population who are asian females:</label>
-            <input type="text" id="asian_female_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            <label for="black_female_label">Apply this multiplier to the % of county population who are African American females:</label>
+            <input type="text" id="black_female_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
           </p>
-          <div id="asian_female_slider" style="height:10px;"></div>
-        </div>
-      </div>
+          <div id="black_female_slider" style="height:10px;"></div>
 
-      <div class="slider-set-wrapper">
+		  <p class="slider-label">
+            <label for="black_male_label">Apply this multiplier to the % of county population who are African America males:</label>
+            <input type="text" id="black_male_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="black_male_slider" style="height:10px;"></div>
+
+        </div>
+
         <div class="slider-set-container">
           <h2>Population density parameters:</h2>
           <p class="slider-label">
@@ -85,15 +76,35 @@
             <input type="text" id="density_housing_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
           </p>
           <div id="density_housing_slider" style="height:10px;"></div>
+
+          <p class="slider-label">
+            <label for="population_label">Apply this multiplier to the population of the county</label>
+            <input type="text" id="population_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="population_slider" style="height:10px;"></div>
+
+        </div>
+      </div>
+
+      <div class="slider-set-wrapper">
+       <div class="slider-set-container">
+          <h2>Education parameters:</h2>
+
+          <p class="slider-label">
+            <label for="percent_bachelors_label">Apply this multiplier to the % of county population who have a bachelor's degree or higher:</label>
+            <input type="text" id="percent_bachelors_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="percent_bachelors_slider" style="height:10px;"></div>
+
+          <p class="slider-label">
+            <label for="percent_hs_only_label">Apply this multiplier to the % of county population who have a high school diploma only:</label>
+            <input type="text" id="percent_hs_only_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
+          </p>
+          <div id="percent_hs_only_slider" style="height:10px;"></div>
         </div>
 
         <div class="slider-set-container">
           <h2>Religious parameters:</h2>
-          <p class="slider-label">
-            <label for="christian_generic_label">Apply this multiplier to the % of county population who are Christian (generic):</label>
-            <input type="text" id="christian_generic_label" readonly style="border:0; color:#f6931f; font-weight:bold;">
-          </p>
-          <div id="christian_generic_slider" style="height:10px;"></div>
 
           <p class="slider-label">
             <label for="jewish_label">Apply this multiplier to the % of county population who are Jewish:</label>
